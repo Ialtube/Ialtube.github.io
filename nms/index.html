@@ -111,7 +111,7 @@
 
         .filters {
             position: relative;
-            z-index: 10;
+            z-index: 1;
             background: rgba(21, 27, 46, 0.8);
             backdrop-filter: blur(10px);
             padding: 2rem;
@@ -186,7 +186,7 @@
 
         .container {
             position: relative;
-            z-index: 10;
+            z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
@@ -709,6 +709,9 @@
                     planetImages[key] = predefinedImages[key];
                 }
             });
+            
+            // Debug: log loaded images
+            console.log('Predefined images loaded:', planetImages);
         }
 
         // Material classification and icons (TODOS los recursos identificados)
@@ -801,6 +804,9 @@
                         climate: clima && clima !== '?' ? clima : '',
                         notes: notas && notas !== '?' ? notas : ''
                     });
+                    
+                    // Debug: log planet keys
+                    console.log('Planet key:', `${currentSystem}_${planeta}`);
                 }
             }
         }
@@ -939,6 +945,11 @@
                 let planetsHTML = (systemMatches ? planets : filteredPlanets).map((planet, index) => {
                     const planetKey = `${systemName}_${planet.name}`;
                     const hasImage = planetImages[planetKey];
+                    
+                    // Debug: check if keys match
+                    if (hasImage) {
+                        console.log('Planet with image:', planetKey);
+                    }
                     
                     return `
                         <div class="planet" data-system="${systemName}" data-planet="${planet.name}">
