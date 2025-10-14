@@ -73,16 +73,15 @@
         }
 
         header {
-            position: relative;
-            z-index: 10;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             background: linear-gradient(180deg, rgba(21, 27, 46, 0.95) 0%, rgba(21, 27, 46, 0.8) 100%);
             backdrop-filter: blur(10px);
             border-bottom: 2px solid var(--accent-primary);
             box-shadow: 0 4px 30px rgba(0, 212, 255, 0.2);
             padding: 2rem;
             text-align: center;
-            position: sticky;
-            top: 0;
         }
 
         h1 {
@@ -693,6 +692,25 @@
         let planetImages = {}; // Store planet images: { systemName_planetName: imageDataURL }
         let editMode = false;
 
+        // Initialize predefined planet images
+        function initializePredefinedImages() {
+            // Map of planet images (relative to nms folder, going up to parent and into imagenes)
+            const predefinedImages = {
+                'KITOYARK_LAYNXODGW (habitable)': '../imagenes/laynxodw.jpg',
+                'Mamata-Inmi_Diman-Menor ( abundante)': '../imagenes/dimand_menor.jpg',
+                'Mamata-Inmi_Lisde (humedo, nubes verde encanto)': '../imagenes/lisde.jpg',
+                'Longong Tigras_Osuku (abundante en flora)': '../imagenes/osuku.jpg'
+                // achardso.jpg y haurina.jpg están disponibles pero no coinciden con nombres en el CSV
+            };
+
+            // Only set predefined images if they haven't been loaded from localStorage
+            Object.keys(predefinedImages).forEach(key => {
+                if (!planetImages[key]) {
+                    planetImages[key] = predefinedImages[key];
+                }
+            });
+        }
+
         // Material classification and icons (TODOS los recursos identificados)
         const materialConfig = {
             // Metales básicos
@@ -819,6 +837,7 @@
         // Initialize app after loading data
         function initializeApp() {
             loadFromLocalStorage(); // Load any saved edits and images
+            initializePredefinedImages(); // Load predefined planet images
             const allMaterials = getAllMaterials();
             createMaterialFilters(allMaterials);
             createStars();
