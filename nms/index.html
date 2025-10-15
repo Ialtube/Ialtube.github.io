@@ -709,9 +709,6 @@
                     planetImages[key] = predefinedImages[key];
                 }
             });
-            
-            // Debug: log loaded images
-            console.log('Predefined images loaded:', planetImages);
         }
 
         // Material classification and icons (TODOS los recursos identificados)
@@ -804,9 +801,6 @@
                         climate: clima && clima !== '?' ? clima : '',
                         notes: notas && notas !== '?' ? notas : ''
                     });
-                    
-                    // Debug: log planet keys
-                    console.log('Planet key:', `${currentSystem}_${planeta}`);
                 }
             }
         }
@@ -946,15 +940,10 @@
                     const planetKey = `${systemName}_${planet.name}`;
                     const hasImage = planetImages[planetKey];
                     
-                    // Debug: check if keys match
-                    if (hasImage) {
-                        console.log('Planet with image:', planetKey);
-                    }
-                    
                     return `
                         <div class="planet" data-system="${systemName}" data-planet="${planet.name}">
                             <div class="planet-header">
-                                <div class="planet-name" onclick="togglePlanetExpand('${systemName}', '${planet.name}')">
+                                <div class="planet-name">
                                     <i class="fas fa-planet-ringed"></i>
                                     ${editMode ? `<input type="text" class="edit-input" value="${planet.name}" onchange="updatePlanetName('${systemName}', '${planet.name}', this.value)" onclick="event.stopPropagation()">` : planet.name}
                                     ${hasImage ? '<i class="fas fa-image" style="margin-left: 0.5rem; color: var(--accent-primary);"></i>' : ''}
@@ -1003,14 +992,12 @@
                                     </span>`;
                                 }).join('')}
                             </div>
-                            <div class="planet-expanded" id="expanded_${systemName}_${index}" style="display: none;">
-                                ${hasImage ? `
-                                    <div class="planet-image-container">
-                                        <img src="${planetImages[planetKey]}" alt="${planet.name}" onclick="openImageModal(this.src)" class="planet-image">
-                                        ${editMode ? `<button class="btn-remove-image" onclick="removePlanetImage('${systemName}', '${planet.name}')"><i class="fas fa-trash"></i></button>` : ''}
-                                    </div>
-                                ` : ''}
-                            </div>
+                            ${hasImage ? `
+                                <div class="planet-image-container" style="margin-top: 1rem;">
+                                    <img src="${planetImages[planetKey]}" alt="${planet.name}" onclick="openImageModal(this.src)" class="planet-image">
+                                    ${editMode ? `<button class="btn-remove-image" onclick="removePlanetImage('${systemName}', '${planet.name}')"><i class="fas fa-trash"></i></button>` : ''}
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 }).join('');
